@@ -22,7 +22,9 @@ export const setupServer = () => {
 
   app.get('/', (req, res) => {
     res.json({
-      message: 'Hello world!',
+      message:
+        'Server is running! Check the /contacts endpoint and /contacts/:contactId for more information.',
+      status: 200,
     });
   });
 
