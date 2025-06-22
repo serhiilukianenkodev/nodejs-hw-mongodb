@@ -9,6 +9,7 @@ import {
 } from '../services/auth.js';
 import { THIRTY_DAYS } from '../constants/index.js';
 import { generateAuthUrl } from '../utils/googleOAuth2.js';
+import createHttpError from 'http-errors';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -22,6 +23,10 @@ export const registerUserController = async (req, res) => {
 
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
+
+  if (!session) {
+    throw createHttpError(401, 'Session not found');
+  }
 
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
